@@ -120,7 +120,6 @@ bool CheckWIFICreds(){
   Serial.println("Checking WIFI credentials");
   String s = EEPROM.readString(100);
   String p = EEPROM.readString(200);
-  String g = EEPROM.readString(300);
   //#if DEBUG
   Serial.print("Found credentials: ");
   Serial.print(s);

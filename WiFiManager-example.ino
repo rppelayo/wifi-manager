@@ -7,6 +7,7 @@ WebServer server(80);
 #include "WiFiManager.h"
 
 void setup() {
+  pinMode(2, OUTPUT);
   pinMode(15,INPUT); //for resetting WiFi creds
   EEPROM.begin(400);
   Serial.begin(115200);
