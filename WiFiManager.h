@@ -50,10 +50,8 @@ bool writeToMemory(String ssid, String pass){
 void handleSubmit(){
   String response_success="<h1>Success</h1>";
   response_success +="<h2>Device will restart in 3 seconds</h2>";
-
   String response_error="<h1>Error</h1>";
   response_error +="<h2><a href='/'>Go back</a>to try again";
-  
   if(writeToMemory(String(server.arg("ssid")),String(server.arg("password")))){
      server.send(200, "text/html", response_success);
      EEPROM.commit();
@@ -83,27 +81,19 @@ void handleRoot() {
 bool loadWIFICredsForm(){
   String s = EEPROM.readString(100);
   String p = EEPROM.readString(200);
-  
-  const char* ssid     = "ESP32 WiFi Manager";
+  //const char* ssid     = "ESP32 WiFi Manager";
+  char APname[11]; 
+  sprintf(APname, "ESP_%X", ESP.getEfuseMac());
   const char* password = "12345678";
-
   Serial.println("Setting Access Point...");
-  
-  WiFi.softAP(ssid, password);
-  
+  WiFi.softAP(APname, password);
   IPAddress IP = WiFi.softAPIP();
-  
   Serial.print("AP IP address: ");
   Serial.println(IP);
-  
   server.on("/", handleRoot);
-
   server.onNotFound(handleNotFound);
-
   server.begin();
-  
   Serial.println("HTTP server started");
- 
   while(s.length() <= 0 && p.length() <= 0){
     server.handleClient();
     delay(100);
